@@ -1,11 +1,32 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
+import { removeCar } from '../store';
 function CarList() {
+    const dispatch=useDispatch()
     const cars=useSelector((state)=>{
-        console.log(state.cars.cars)
+        return state.cars.data;
     })
+
+    const handleClick=(car)=>{
+        dispatch(removeCar(car.id))
+    }
+
+    const renderCars=cars.map((car)=>{
+        
+        return(
+            <div key={car.id} className='panel'>
+                <p>
+                    {car.name} - ${car.cost}
+                </p>
+                <button className='button is-danger' onClick={()=>handleClick(car)}>
+                    Delete
+                </button>
+            </div>
+        )
+    })
+
   return (
-    <div>CarList</div>
+    <div className='car-list'>{renderCars} <hr/></div>
   )
 }
 
